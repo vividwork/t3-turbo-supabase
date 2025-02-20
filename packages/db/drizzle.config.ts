@@ -10,7 +10,7 @@ if (!env.DATABASE_URL) {
 
 export default {
   schema: "./src/schema",
-  out: "./migrations",
+  out: "./src/migrations",
   dialect: "postgresql",
   dbCredentials: {
     url: nonPoolingUrl,
