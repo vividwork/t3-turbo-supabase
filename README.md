@@ -99,7 +99,19 @@ Install Android Studio tools [as shown on expo docs](https://docs.expo.dev/workf
 2. Under project settings, retrieve the environment variables `reference id`, `project url` & `anon public key` and set them up in Infisical (L3s have permission for this). See the `env.ts` file for the env schema.
 3. Under `Auth`, configure any auth provider(s) of your choice. This repo is using email/password and Apple for Mobile.
 4. Under `Auth` -> `URL Configuration`, set the `Site URL` to your production URL and add `http://localhost:3000/**` and `https://*-username.vercel.app/**` to `Redirect URLs` as detailed here <https://supabase.com/docs/guides/auth/redirect-urls#vercel-preview-urls>.
-5. Setup a trigger when a new user signs up: <https://supabase.com/docs/guides/auth/managing-user-data#using-triggers>. Can run this in the SQL Editor.
+5. Download the SSL certificate from Supabase. Open the file that it downloads in Notepad or your IDE and then populate the `DATABASE_CA` environment variable with the text.
+![404548288-f1bc1c43-6455-44cc-b06e-7082ed4563f5](https://github.com/user-attachments/assets/94ea8419-0913-43a4-89aa-3d128d81cca1)
+
+Your environment variable should look something like this:
+```
+DATABASE_CA="-----BEGIN CERTIFICATE-----
+MIIFfjCCA2agAwIBAgIUFzt/hG+Kx2L1z9uzChgojfS2lcQwDQYJKoZIhvcNAQEL
+[...]
+RF9269bOFWLNGVRYXAj9XdE7
+-----END CERTIFICATE-----"
+```
+   
+6. Set up a trigger when a new user signs up: <https://supabase.com/docs/guides/auth/managing-user-data#using-triggers>. Can run this in the SQL Editor.
 
 ```sql
 create function public.handle_new_user()
@@ -133,7 +145,7 @@ create trigger on_auth_user_verified
 drop trigger "on_auth_user_verified" on auth.users;
 ```
 
-6. Remove access to the `public` schema as we are only using the server
+7. Remove access to the `public` schema as we are only using the server
 
 By default, Supabase exposes the `public` schema to the PostgREST API to allow the `supabase-js` client query the database directly from the client. However, since we route all our requests through the Next.js application (through tRPC), we don't want our client to have this access. To disable this, execute the following SQL query in the SQL Editor on your Supabase dashboard:
 
