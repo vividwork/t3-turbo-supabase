@@ -13,7 +13,7 @@ import { createSupabaseServerClient } from "@/utils/supabase/server";
 export const signInWithPassword = action(
   SignInSchema,
   async ({ email, password }) => {
-    const supabase = createSupabaseServerClient();
+    const supabase = await createSupabaseServerClient();
 
     const { error } = await supabase.auth.signInWithPassword({
       email,
@@ -29,7 +29,7 @@ export const signInWithPassword = action(
 
 export const signUp = action(SignUpSchema, async ({ email, password }) => {
   const origin = headers().get("origin");
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
 
   const redirectUrl = `${origin}/auth/confirm?next=${encodeURIComponent(DEFAULT_LOGIN_REDIRECT)}`;
 
@@ -51,7 +51,7 @@ export const signUp = action(SignUpSchema, async ({ email, password }) => {
 });
 
 export const signOut = async () => {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
 
   await supabase.auth.signOut();
   redirect("/");

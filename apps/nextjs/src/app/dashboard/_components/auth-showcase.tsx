@@ -7,7 +7,7 @@ import { DEFAULT_AUTH_ROUTE } from "@/config/routes";
 import { createSupabaseServerClient } from "@/utils/supabase/server";
 
 export async function AuthShowcase() {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
   const user = await supabase.auth.getUser();
 
   if (user.error ?? !user.data.user) {

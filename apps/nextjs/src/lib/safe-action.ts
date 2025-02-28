@@ -6,7 +6,7 @@ export const action = createSafeActionClient();
 
 export const authAction = createSafeActionClient({
   async middleware() {
-    const supabase = createSupabaseServerClient();
+    const supabase = await createSupabaseServerClient();
     const { data, error } = await supabase.auth.getUser();
 
     if (error ?? !data.user) {

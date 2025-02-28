@@ -15,7 +15,7 @@ export const env = createEnv({
    * built with invalid env vars.
    */
   server: {
-    POSTGRES_URL: z.string().url(),
+    DATABASE_URL: z.string().url(),
     SENTRY_ORG: z.string(),
     SENTRY_AUTH_TOKEN: z.string(),
     SUPABASE_SERVICE_ROLE_KEY: z.string(),
@@ -33,7 +33,7 @@ export const env = createEnv({
    */
   runtimeEnv: {
     NODE_ENV: process.env.NODE_ENV,
-    POSTGRES_URL: process.env.POSTGRES_URL,
+    DATABASE_URL: process.env.DATABASE_URL,
     NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
     NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
     SENTRY_ORG: process.env.SENTRY_ORG,

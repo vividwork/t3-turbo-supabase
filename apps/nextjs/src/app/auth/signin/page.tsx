@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 };
 
 export default async function SignInPage() {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
   const user = await supabase.auth.getUser();
 
   if (user.data.user) redirect("/dashboard");

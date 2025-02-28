@@ -1,7 +1,7 @@
 import { fileURLToPath } from "url";
 import MillionLint from "@million/lint";
 import createBundleAnalyzer from "@next/bundle-analyzer";
-import { withSentryConfig } from "@sentry/nextjs";
+import { SentryContextManager, withSentryConfig } from "@sentry/nextjs";
 import createJiti from "jiti";
 
 // Import env files to validate at build time. Use jiti so we can load .ts files in here.
@@ -37,29 +37,53 @@ const config = {
   typescript: { ignoreBuildErrors: true },
 };
 
-export default MillionLint.next({
-  enabled: true,
-  rsc: true,
-})(
-  withSentryConfig(withBundleAnalyzer(config), {
-    // https://github.com/getsentry/sentry-webpack-plugin#options
-    silent: true,
-    org: process.env.SENTRY_ORG,
-    project: "web",
-    authToken: process.env.SENTRY_AUTH_TOKEN,
-    widenClientFileUpload: true,
-    hideSourceMaps: true,
-    disableLogger: true,
-    // we don't use vercel
-    automaticVercelMonitors: false,
-    // Automatically annotate React components to show their full name in breadcrumbs and session replay
-    reactComponentAnnotation: {
-      enabled: true,
-    },
-    // Route browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers.
-    // This can increase your server load as well as your hosting bill.
-    // Note: Check that the configured route will not match with your Next.js middleware, otherwise reporting of client-
-    // side errors will fail.
-    tunnelRoute: "/monitoring",
-  }),
-);
+export default process.env.SENTRY_ORG && process.env.SENTRY_AUTH_TOKEN
+  ? withSentryConfig(withBundleAnalyzer(config), {
+      // https://github.com/getsentry/sentry-webpack-plugin#options
+      silent: true,
+      org: process.env.SENTRY_ORG,
+      project: "web",
+      authToken: process.env.SENTRY_AUTH_TOKEN,
+      widenClientFileUpload: true,
+      hideSourceMaps: true,
+      disableLogger: true,
+      // we don't use vercel
+      automaticVercelMonitors: false,
+      // Automatically annotate React components to show their full name in breadcrumbs and session replay
+      reactComponentAnnotation: {
+        enabled: true,
+      },
+      // Route browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers.
+      // This can increase your server load as well as your hosting bill.
+      // Note: Check that the configured route will not match with your Next.js middleware, otherwise reporting of client-
+      // side errors will fail.
+      tunnelRoute: "/monitoring",
+    })
+  : withBundleAnalyzer(config);
+
+// export default MillionLint.next({
+//   enabled: true,
+//   rsc: true,
+// })(
+//   withSentryConfig(withBundleAnalyzer(config), {
+//     // https://github.com/getsentry/sentry-webpack-plugin#options
+//     silent: true,
+//     org: process.env.SENTRY_ORG,
+//     project: "web",
+//     authToken: process.env.SENTRY_AUTH_TOKEN,
+//     widenClientFileUpload: true,
+//     hideSourceMaps: true,
+//     disableLogger: true,
+//     // we don't use vercel
+//     automaticVercelMonitors: false,
+//     // Automatically annotate React components to show their full name in breadcrumbs and session replay
+//     reactComponentAnnotation: {
+//       enabled: true,
+//     },
+//     // Route browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers.
+//     // This can increase your server load as well as your hosting bill.
+//     // Note: Check that the configured route will not match with your Next.js middleware, otherwise reporting of client-
+//     // side errors will fail.
+//     tunnelRoute: "/monitoring",
+//   }),
+// );

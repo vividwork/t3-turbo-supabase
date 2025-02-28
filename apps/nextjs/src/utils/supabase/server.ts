@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/require-await */
 "use server";
 
 import type { CookieOptions } from "@supabase/ssr";
@@ -7,7 +8,7 @@ import { createClient } from "@supabase/supabase-js";
 
 import { env } from "../../env";
 
-export function createSupabaseServerClientReadOnly() {
+export async function createSupabaseServerClientReadOnly() {
   const cookieStore = cookies();
 
   return createServerClient(
@@ -23,7 +24,7 @@ export function createSupabaseServerClientReadOnly() {
   );
 }
 
-export function createSupabaseServerClient() {
+export async function createSupabaseServerClient() {
   const cookieStore = cookies();
 
   return createServerClient(
@@ -45,7 +46,7 @@ export function createSupabaseServerClient() {
   );
 }
 
-export function createSupabaseAdminClient() {
+export async function createSupabaseAdminClient() {
   return createClient(
     env.NEXT_PUBLIC_SUPABASE_URL,
     env.SUPABASE_SERVICE_ROLE_KEY,
@@ -58,7 +59,7 @@ export function createSupabaseAdminClient() {
   );
 }
 
-export function createSupabaseServiceRoleClient() {
+export async function createSupabaseServiceRoleClient() {
   return createClient(
     env.NEXT_PUBLIC_SUPABASE_URL,
     env.SUPABASE_SERVICE_ROLE_KEY,

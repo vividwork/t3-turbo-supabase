@@ -6,6 +6,7 @@ export const env = createEnv({
   server: {
     SUPABASE_SERVICE_ROLE_KEY: z.string(),
     DATABASE_URL: z.string(),
+    DATABASE_CA: z.string(),
     LOG_SQL_QUERIES: z.boolean().optional().default(false),
     ENABLE_STATSD: z.boolean().optional().default(false),
     STATSD_HOST: z.string().optional(),
@@ -21,6 +22,7 @@ export const env = createEnv({
     NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string(),
   },
   runtimeEnv: {
+    DATABASE_CA: process.env.DATABASE_CA,
     NEXT_PUBLIC_APP_ENV: process.env.NEXT_PUBLIC_APP_ENV,
     NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
     NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,

@@ -3,6 +3,7 @@ import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 
 import { cn } from "@acme/ui";
+import { SidebarProvider } from "@acme/ui/sidebar";
 import { Toaster } from "@acme/ui/sonner";
 import { ThemeProvider } from "@acme/ui/theme";
 
@@ -50,13 +51,15 @@ export default function RootLayout(props: { children: React.ReactNode }) {
           GeistMono.variable,
         )}
       >
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <TRPCReactProvider>{props.children}</TRPCReactProvider>
-          {/* <div className="absolute bottom-4 right-4">
+        <SidebarProvider>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <TRPCReactProvider>{props.children}</TRPCReactProvider>
+            {/* <div className="absolute bottom-4 right-4">
             <ThemeToggle />
           </div> */}
-          <Toaster />
-        </ThemeProvider>
+            <Toaster />
+          </ThemeProvider>
+        </SidebarProvider>
       </body>
     </html>
   );

@@ -18,7 +18,7 @@ export default async function DashboardLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
   const user = await supabase.auth.getUser();
 
   const layout = cookies().get("react-resizable-panels:layout");

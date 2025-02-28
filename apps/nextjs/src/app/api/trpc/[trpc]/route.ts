@@ -5,8 +5,6 @@ import { appRouter, createTRPCContext } from "@acme/api";
 
 import { createSupabaseServerClient } from "@/utils/supabase/server";
 
-export const runtime = "edge";
-
 /**
  * Configure basic CORS headers
  * You should extend this to match your needs
@@ -27,7 +25,7 @@ export function OPTIONS() {
 }
 
 const handler = async (req: NextRequest) => {
-  const supabase = createSupabaseServerClient();
+  const supabase = await createSupabaseServerClient();
 
   const response = await fetchRequestHandler({
     endpoint: "/api/trpc",
